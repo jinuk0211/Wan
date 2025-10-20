@@ -94,8 +94,8 @@ class WanI2V:
             shard_fn=shard_fn if t5_fsdp else None,
         )
 
-        self.vae_stride = config.vae_stride
-        self.patch_size = config.patch_size
+        self.vae_stride = config.vae_stride #i2v_A14B.vae_stride = (4, 8, 8)
+        self.patch_size = config.patch_size #i2v_A14B.patch_size = (1, 2, 2)
         self.vae = Wan2_1_VAE(
             vae_pth=os.path.join(checkpoint_dir, config.vae_checkpoint),
             device=self.device)
@@ -268,8 +268,7 @@ class WanI2V:
             np.sqrt(max_area / aspect_ratio) // self.vae_stride[2] //
             self.patch_size[2] * self.patch_size[2])
         h = lat_h * self.vae_stride[1]
-        w = lat_w * self.vae_stride[2]
-
+        w = lat_w * self.vae_stride[2] #i2v_A14B.vae_stride = (4, 8, 8) #i2v_A14B.patch_size = (1, 2, 2)
         max_seq_len = ((F - 1) // self.vae_stride[0] + 1) * lat_h * lat_w // (
             self.patch_size[1] * self.patch_size[2])
         max_seq_len = int(math.ceil(max_seq_len / self.sp_size)) * self.sp_size

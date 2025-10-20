@@ -290,7 +290,12 @@ class Head(nn.Module):
                     self.norm(x) * (1 + e[1].squeeze(2)) + e[0].squeeze(2)))
         return x
 
-
+#diffuesr의 클래스는 대부분 
+# from diffusers import ModelMixin, ConfigMixin
+# class UNet2DConditionModel(ModelMixin, ConfigMixin):
+# class ConfigMixin(FromPretrainedMixin): 내부적으로 frompretrainedmixin을 상속받고 이 class가 from_pretrained를 가짐
+# self.low_noise_model = WanModel.from_pretrained(
+#     checkpoint_dir, subfolder=config.low_noise_checkpoint)
 class WanModel(ModelMixin, ConfigMixin):
     r"""
     Wan diffusion backbone supporting both text-to-video and image-to-video.
