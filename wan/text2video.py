@@ -278,10 +278,10 @@ class WanT2V:
 
         noise = [
             torch.randn(
-                target_shape[0],
-                target_shape[1],
-                target_shape[2],
-                target_shape[3],
+                target_shape[0], #dim
+                target_shape[1], #frame num 3개다 VAE의 3D conv 이후의 shape
+                target_shape[2], #latent height
+                target_shape[3], #latent width
                 dtype=torch.float32,
                 device=self.device,
                 generator=seed_g)

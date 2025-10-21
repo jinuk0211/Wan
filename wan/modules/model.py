@@ -324,6 +324,7 @@ class WanModel(ModelMixin, ConfigMixin):
                  cross_attn_norm=True,
                  eps=1e-6):
         r"""
+                
         Initialize the diffusion model backbone.
 
         Args:
@@ -420,8 +421,17 @@ class WanModel(ModelMixin, ConfigMixin):
         seq_len,
         y=None,
     ):
-        r"""
-        Forward pass through the diffusion model
+        r""" arg_c = { 'context': [context[0]], 'seq_len': max_seq_len, 'y': [y],}
+        noise_pred_cond = model(
+            latent_model_input, t=timestep, **arg_c)[0]
+        if offload_model:
+            torch.cuda.empty_cache()
+        noise_pred_uncond = model(
+            latent_model_input, t=timestep, **arg_null)[0]
+        if offload_model:
+            torch.cuda.empty_cache()
+        noise_pred = noise_pred_uncond + sample_guide_scale * (
+            noise_pred_cond - noise_pred_uncond)      
 
         Args:
             x (List[Tensor]):
