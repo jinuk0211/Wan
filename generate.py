@@ -479,40 +479,6 @@ def generate(args):
             guide_scale=args.sample_guide_scale,
             seed=args.base_seed,
             offload_model=args.offload_model)
-    elif "s2v" in args.task:
-        logging.info("Creating WanS2V pipeline.")
-        wan_s2v = wan.WanS2V(
-            config=cfg,
-            checkpoint_dir=args.ckpt_dir,
-            device_id=device,
-            rank=rank,
-            t5_fsdp=args.t5_fsdp,
-            dit_fsdp=args.dit_fsdp,
-            use_sp=(args.ulysses_size > 1),
-            t5_cpu=args.t5_cpu,
-            convert_model_dtype=args.convert_model_dtype,
-        )
-        logging.info(f"Generating video ...")
-        video = wan_s2v.generate(
-            input_prompt=args.prompt,
-            ref_image_path=args.image,
-            audio_path=args.audio,
-            enable_tts=args.enable_tts,
-            tts_prompt_audio=args.tts_prompt_audio,
-            tts_prompt_text=args.tts_prompt_text,
-            tts_text=args.tts_text,
-            num_repeat=args.num_clip,
-            pose_video=args.pose_video,
-            max_area=MAX_AREA_CONFIGS[args.size],
-            infer_frames=args.infer_frames,
-            shift=args.sample_shift,
-            sample_solver=args.sample_solver,
-            sampling_steps=args.sample_steps,
-            guide_scale=args.sample_guide_scale,
-            seed=args.base_seed,
-            offload_model=args.offload_model,
-            init_first_frame=args.start_from_ref,
-        )
     else:
         logging.info("Creating WanI2V pipeline.")
         wan_i2v = wan.WanI2V(
