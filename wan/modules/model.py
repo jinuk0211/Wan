@@ -58,7 +58,9 @@ def rope_apply(x, grid_sizes, freqs):
             freqs[2][:w].view(1, 1, w, -1).expand(f, h, w, -1)
         ],
                             dim=-1).reshape(seq_len, 1, -1)
-
+#Shape: (f, 22).
+#Then .view(f, 1, 1, -1) → (f, 1, 1, 22)
+#and .expand(f, h, w, 22) → broadcast to (f, h, w, 22).
         # apply rotary embedding
         x_i = torch.view_as_real(x_i * freqs_i).flatten(2)
         x_i = torch.cat([x_i, x[i, seq_len:]])
