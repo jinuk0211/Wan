@@ -33,7 +33,9 @@ def rope_params(max_seq_len, dim, theta=10000):
                         torch.arange(0, dim, 2).to(torch.float64).div(dim)))
     freqs = torch.polar(torch.ones_like(freqs), freqs)
     return freqs
-
+#d - 4(d//6), 2(d//6), 2(d//6) d = 128
+#1024, 44-42-42 -> 1024, 22-21-21
+#self.freqs concat = 1024, 64 shape
 
 @torch.amp.autocast('cuda', enabled=False)
 def rope_apply(x, grid_sizes, freqs):
