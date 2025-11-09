@@ -52,6 +52,10 @@ def rope_apply(x, grid_sizes, freqs):
         # precompute multipliers
         x_i = torch.view_as_complex(x[i, :seq_len].to(torch.float64).reshape(
             seq_len, n, -1, 2))
+# (1024, 16, 64, 2) -> 1024, 16, 64
+#torch.view_as_complex treats the last dimension of size 2 as (real, imag) pairs, converting it into complex numbers.
+#So the last dimension (size 2) is collapsed into complex numbers.
+
         freqs_i = torch.cat([
             freqs[0][:f].view(f, 1, 1, -1).expand(f, h, w, -1),
             freqs[1][:h].view(1, h, 1, -1).expand(f, h, w, -1),
