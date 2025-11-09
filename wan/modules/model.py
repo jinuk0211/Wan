@@ -97,7 +97,7 @@ class WanSelfAttention(nn.Module):
             seq_lens(Tensor): Shape [B]
             grid_sizes(Tensor): Shape [B, 3], the second dimension contains (F, H, W)
             freqs(Tensor): Rope freqs, shape [1024, C / num_heads / 2]
-        """
+        """  #dim 2048 num_heads 16 head_dim 128
         b, s, n, d = *x.shape[:2], self.num_heads, self.head_dim
 
         # query, key, value function
